@@ -1,7 +1,7 @@
 %% Design Trust Analysis Script
 % This script anal
 %load inputs
-load('TrussDesignCheck_ZeniaBrandonJerryEric_A1.mat');
+load('TrussDesign1_ZeniaBrandonJerryEric_A1.mat');
 
 %% Equilibruim equations
 % use lin alg. A*T=L, A is coeff, T is var, L is result
@@ -22,6 +22,8 @@ ydiff = repmat(yp,j,1);
 %divides the difference by the distance to find the x and y components
 distance = (xdiff.^2 + ydiff.^2).^(1/2);
 xcomp = c.*xdiff./distance;
+
+
 ycomp = c.*ydiff./distance;
 
 %forms the A matrix where the first half of rows are the x component and
@@ -42,7 +44,7 @@ end
 %% Additional calculations
 fitStraw = 1334.8; %N/L^2
 
-cost = 10*j + 1*sum(distance(1,:)); % cost of truss
+cost = 10*j + 100*sum(distance(1,:)); % cost of truss
 mforce = abs(T(1:(length(T)-3))); %members force value
 tORc = zeros(size(T(1:(length(T)-3))));
 for i = 1:m
@@ -66,7 +68,7 @@ compF = T(1:(length(T)-3));
 compF(compF>0) = 0;
 compF = abs(compF)';
 for i = 1:m
-    compF(i) = compF(i)./(fitStraw/(distance(1,i)^2));
+    compF(i) = compF(i)./(fitStraw/(100*distance(1,i)^2));
 end
 maxLoad = abs(sum(L))*(1/max(compF));
 
